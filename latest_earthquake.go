@@ -3,12 +3,15 @@ package gempago
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"net/http"
+	"strconv"
+	"strings"
 	"time"
 )
 
-type AutoGempa struct {
+type autoGempa struct {
 	InfoGempa struct {
 		Gempa struct {
 			Tanggal     string    `json:"Tanggal"`
@@ -27,13 +30,31 @@ type AutoGempa struct {
 	} `json:"Infogempa"`
 }
 
-func LatestEarthQuake() (*AutoGempa, error) {
+type EarthQuakeData struct {
+	Date        string     `json:"date"`
+	Hour        string     `json:"hour"`
+	DateTime    *time.Time `json:"date_time"`
+	Coordinates string     `json:"coordinates"`
+	Latitude    int        `json:"latitude"`
+	Longitude   int        `json:"longitude"`
+	Magnitude   int        `json:"magnitude"`
+	Depth       string     `json:"depth"`
+	Region      string     `json:"region"`
+	Potensi     string     `json:"potensi"`
+	Dirasakan   string     `json:"dirasakan"`
+	Shakemap    string     `json:"shakemap"`
+}
+
+func LatestEarthQuake() (*EarthQuakeData, error) {
 	req, err := http.NewRequest(http.MethodGet, "https://data.bmkg.go.id/DataMKG/TEWS/autogempa.json", nil)
 	if err != nil {
 		return nil, err
 	}
 
-	var data AutoGempa
+	var (
+		data           autoGempa
+		earthQuakeData EarthQuakeData
+	)
 
 	client := http.Client{
 		Timeout: 5 * time.Second,
@@ -57,5 +78,24 @@ func LatestEarthQuake() (*AutoGempa, error) {
 		return nil, err
 	}
 
-	return &data, nil
+	earthQuakeData.Date = data.InfoGempa.Gempa.Tanggal
+	earthQuakeData.Hour = data.InfoGempa.Gempa.Jam
+	earthQuakeData.DateTime = &data.InfoGempa.Gempa.DateTime
+	earthQuakeData.Coordinates = data.InfoGempa.Gempa.Coordinates
+
+	coords := strings.Split(earthQuakeData.Coordinates, ",")
+	earthQuakeData.Latitude, _ = strconv.Atoi(strings.TrimSpace(coords[0]))
+	earthQuakeData.Longitude, _ = strconv.Atoi(strings.TrimSpace(coords[1]))
+
+	earthQuakeData.Magnitude, _ = strconv.Atoi(data.InfoGempa.Gempa.Magnitude)
+
+	earthQuakeData.Depth = data.InfoGempa.Gempa.Kedalaman
+	earthQuakeData.Region = data.InfoGempa.Gempa.Wilayah
+
+	earthQuakeData.Potensi = data.InfoGempa.Gempa.Potensi
+	earthQuakeData.Dirasakan = data.InfoGempa.Gempa.Dirasakan
+
+	earthQuakeData.Shakemap = fmt.Sprintf("https://data.bmkg.go.id/DataMKG/TEWS/%s", data.InfoGempa.Gempa.Shakemap)
+
+	return &earthQuakeData, nil
 }
