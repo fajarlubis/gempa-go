@@ -4,3 +4,13 @@
 [![GoDoc](https://godoc.org/github.com/fajarlubis/gempa-go?status.svg)](https://godoc.org/github.com/fajarlubis/gempa-go)
 
 Go wrapper for BMKG (Badan Meteorologi, Klimatologi dan Geofisika)
+
+## Usage
+
+### Start using it
+
+Download and install it:
+
+```sh
+go get -u github.com/fajarlubis/gempa-go
+```
