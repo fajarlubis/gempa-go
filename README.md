@@ -14,3 +14,9 @@ Download and install it:
 ```sh
 go get -u github.com/fajarlubis/gempa-go
 ```
+
+Import it in your code:
+
+```go
+import "github.com/fajarlubis/gempa-go"
+```
