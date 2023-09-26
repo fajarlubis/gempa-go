@@ -11,40 +11,6 @@ import (
 	"time"
 )
 
-type autoGempa struct {
-	InfoGempa struct {
-		Gempa struct {
-			Tanggal     string    `json:"Tanggal"`
-			Jam         string    `json:"Jam"`
-			DateTime    time.Time `json:"DateTime"`
-			Coordinates string    `json:"Coordinates"`
-			Lintang     string    `json:"Lintang"`
-			Bujur       string    `json:"Bujur"`
-			Magnitude   string    `json:"Magnitude"`
-			Kedalaman   string    `json:"Kedalaman"`
-			Wilayah     string    `json:"Wilayah"`
-			Potensi     string    `json:"Potensi"`
-			Dirasakan   string    `json:"Dirasakan"`
-			Shakemap    string    `json:"Shakemap"`
-		} `json:"gempa"`
-	} `json:"Infogempa"`
-}
-
-type EarthQuakeData struct {
-	Date        string     `json:"date"`
-	Hour        string     `json:"hour"`
-	DateTime    *time.Time `json:"date_time"`
-	Coordinates string     `json:"coordinates"`
-	Latitude    int        `json:"latitude"`
-	Longitude   int        `json:"longitude"`
-	Magnitude   int        `json:"magnitude"`
-	Depth       string     `json:"depth"`
-	Region      string     `json:"region"`
-	Potensi     string     `json:"potensi"`
-	Dirasakan   string     `json:"dirasakan"`
-	Shakemap    string     `json:"shakemap"`
-}
-
 func LatestEarthQuake() (*EarthQuakeData, error) {
 	req, err := http.NewRequest(http.MethodGet, "https://data.bmkg.go.id/DataMKG/TEWS/autogempa.json", nil)
 	if err != nil {
@@ -52,7 +18,25 @@ func LatestEarthQuake() (*EarthQuakeData, error) {
 	}
 
 	var (
-		data           autoGempa
+		data struct {
+			InfoGempa struct {
+				Gempa struct {
+					Tanggal     string    `json:"Tanggal"`
+					Jam         string    `json:"Jam"`
+					DateTime    time.Time `json:"DateTime"`
+					Coordinates string    `json:"Coordinates"`
+					Lintang     string    `json:"Lintang"`
+					Bujur       string    `json:"Bujur"`
+					Magnitude   string    `json:"Magnitude"`
+					Kedalaman   string    `json:"Kedalaman"`
+					Wilayah     string    `json:"Wilayah"`
+					Potensi     string    `json:"Potensi"`
+					Dirasakan   string    `json:"Dirasakan"`
+					Shakemap    string    `json:"Shakemap"`
+				} `json:"gempa"`
+			} `json:"Infogempa"`
+		}
+
 		earthQuakeData EarthQuakeData
 	)
 
@@ -66,7 +50,7 @@ func LatestEarthQuake() (*EarthQuakeData, error) {
 	}
 
 	if res.StatusCode != http.StatusOK {
-		return nil, errors.New("status code not 200")
+		return nil, errors.New("http status code not 200")
 	}
 
 	rb, err := io.ReadAll(res.Body)
@@ -92,8 +76,8 @@ func LatestEarthQuake() (*EarthQuakeData, error) {
 	earthQuakeData.Depth = data.InfoGempa.Gempa.Kedalaman
 	earthQuakeData.Region = data.InfoGempa.Gempa.Wilayah
 
-	earthQuakeData.Potensi = data.InfoGempa.Gempa.Potensi
-	earthQuakeData.Dirasakan = data.InfoGempa.Gempa.Dirasakan
+	earthQuakeData.Potential = data.InfoGempa.Gempa.Potensi
+	earthQuakeData.AffectedRegion = data.InfoGempa.Gempa.Dirasakan
 
 	earthQuakeData.Shakemap = fmt.Sprintf("https://data.bmkg.go.id/DataMKG/TEWS/%s", data.InfoGempa.Gempa.Shakemap)
 
