@@ -12,7 +12,7 @@ import (
 )
 
 func RecentsEarthQuake() ([]*EarthQuakeData, error) {
-	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/TEWS/gempaterkini.json", BMKG_URL), nil)
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/gempaterkini.json", _BMKG), nil)
 	if err != nil {
 		return nil, err
 	}

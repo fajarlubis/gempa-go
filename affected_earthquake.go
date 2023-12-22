@@ -11,8 +11,10 @@ import (
 	"time"
 )
 
+// TODO add exponential backoff algorithm
+
 func AffectedEarthQuake() ([]*EarthQuakeData, error) {
-	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/TEWS/gempadirasakan.json", BMKG_URL), nil)
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/gempadirasakan.json", _BMKG), nil)
 	if err != nil {
 		return nil, err
 	}

@@ -1,5 +1,6 @@
 package gempago
 
 const (
-	BMKG_URL = "https://data.bmkg.go.id/DataMKG"
+	_BMKG = "https://data.bmkg.go.id/DataMKG/TEWS"
+	_USGS = ""
 )

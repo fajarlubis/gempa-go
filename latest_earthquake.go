@@ -12,7 +12,7 @@ import (
 )
 
 func LatestEarthQuake() (*EarthQuakeData, error) {
-	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/TEWS/autogempa.json", BMKG_URL), nil)
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/autogempa.json", _BMKG), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -79,7 +79,7 @@ func LatestEarthQuake() (*EarthQuakeData, error) {
 	earthQuakeData.Potential = data.InfoGempa.Gempa.Potensi
 	earthQuakeData.AffectedRegion = data.InfoGempa.Gempa.Dirasakan
 
-	earthQuakeData.Shakemap = fmt.Sprintf("%s/TEWS/%s", BMKG_URL, data.InfoGempa.Gempa.Shakemap)
+	earthQuakeData.Shakemap = fmt.Sprintf("%s/%s", _BMKG, data.InfoGempa.Gempa.Shakemap)
 
 	return &earthQuakeData, nil
 }
