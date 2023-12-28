@@ -3,6 +3,7 @@ package gempago
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"net/http"
 	"strconv"
@@ -10,8 +11,10 @@ import (
 	"time"
 )
 
+// TODO add exponential backoff algorithm
+
 func AffectedEarthQuake() ([]*EarthQuakeData, error) {
-	req, err := http.NewRequest(http.MethodGet, "https://data.bmkg.go.id/DataMKG/TEWS/gempadirasakan.json", nil)
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/gempadirasakan.json", _BMKG), nil)
 	if err != nil {
 		return nil, err
 	}

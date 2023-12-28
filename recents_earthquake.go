@@ -3,6 +3,7 @@ package gempago
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"net/http"
 	"strconv"
@@ -11,7 +12,7 @@ import (
 )
 
 func RecentsEarthQuake() ([]*EarthQuakeData, error) {
-	req, err := http.NewRequest(http.MethodGet, "https://data.bmkg.go.id/DataMKG/TEWS/gempaterkini.json", nil)
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/gempaterkini.json", _BMKG), nil)
 	if err != nil {
 		return nil, err
 	}
