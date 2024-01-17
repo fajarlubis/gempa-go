@@ -15,4 +15,5 @@ type EarthQuakeData struct {
 	Potential      string     `json:"potential"`
 	AffectedRegion string     `json:"affected_region"`
 	Shakemap       string     `json:"shakemap"`
+	GoogleMapsUrl  string     `json:"google_maps_url"`
 }

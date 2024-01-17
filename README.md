@@ -3,9 +3,11 @@
 [![Run Tests](https://github.com/fajarlubis/gempa-go/actions/workflows/ci.yml/badge.svg)](https://github.com/fajarlubis/gempa-go/actions/workflows/ci.yml)
 [![GoDoc](https://godoc.org/github.com/fajarlubis/gempa-go?status.svg)](https://godoc.org/github.com/fajarlubis/gempa-go)
 
-Go wrapper for BMKG (Badan Meteorologi, Klimatologi dan Geofisika). All the data provided here https://data.bmkg.go.id/gempabumi
+Gempa Go is a simple http wrapper for BMKG json resources build with the [Go language](https://go.dev/) equipped with [exponential backoff strategy](https://en.wikipedia.org/wiki/Exponential_backoff). All data provided here [https://data.bmkg.go.id/gempabumi](https://data.bmkg.go.id/gempabumi)
 
-I use this package for integrate with IoT devices like ESP32, Arduino, etc.
+##### What is BMKG?
+
+Meteorology, Climatology, and Geophysical Agency (Indonesian: Badan Meteorologi, Klimatologi, dan Geofisika, abbreviated BMKG) is  **an Indonesian non-departmental government agency for meteorology, climatology, and geophysics**.
 
 ## Usage
 
